@@ -1,1 +1,238 @@
+HTML
+
+<div class="h">
+    <div class="calc">
+          <h5 class="colo">CASIO</h5>
+      <form name="cal"> 
+          <input type="text" placeholder="0" name="display" [value] = "display">
+          <br><br>
+          <input class="g" type="button"  value ="AC" (click) ="AC()" >
+          <input class="g" type="button" value ="DEL" (click) ="DEL()">
+          <input class="g" type="button" value ="%" (click) ="Percentage()">
+          <input class="ap" type="button" value ="/" (click) ="Division()">
+          <br><br>
+          <input type="button" value ="7" (click) = "Numclick('7')">
+          <input type="button" value ="8" (click) ="Numclick('8')"> 
+          <input type="button" value ="9" (click) ="Numclick('9')">  
+          <input class="ap" type="button" value ="*" (click) ="Multiply()">
+          <br><br>
+          <input type="button" value ="4" (click) ="Numclick('4')">
+          <input type="button" value ="5" (click) ="Numclick('7')">
+          <input type="button" value ="6" (click) ="Numclick('7')">
+          <input class="ap" type="button" value ="-"(click) ="Minus()">
+          <br><br>  
+          <input type="button" value ="3" (click) ="Numclick('7')">
+          <input type="button" value ="2" (click) ="Numclick('7')">
+          <input type="button" value ="1" (click) ="Numclick('7')">
+          <input class="ap" type="button" value ="+" (click) = "Plus()">
+          <br><br>
+          <input type="button" value ="+/-" onclick ="cal.display.value+='+/-'">
+          <input type="button" value ="0" (click) ="Numclick('7')">
+          <input type="button" value ="." (click) ="Numclick('7')">
+          <input class="ap" type="button" value ="=" (click) = "Equals()">
+          <br><br>
+          </form>
+    </div> 
+    <!-- <button type="button" routerLink="/works" class="btn btn-primary a22">Back</button>  -->
+  </div>
+  
+  CSS:
+      .colo{
+    color: white;
+    float: right;
+  }
+  body{
+    height: 70%;
+    background-color: #f2f2f2;
+  }
+  *{
+      box-sizing: border-box;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+    }
+  
+  .calc{
+    width: 400px;
+    margin: auto;
+    height: auto;
+    background-color: rgba(0,0,0,255);
+    border-radius:30px;
+    padding: 15px;
+    justify-content: center;
+   color: black;
+   margin-left: 700px;
+  
+  }
+  input[type=text]{
+    width:100%;
+    padding: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    border-radius: 20px;
+    text-align: right;
+    
+  }
+  input[type=button]{
+     grid-gap: 10px;
+    grid-template-columns: repeat(4,1fr);
+    width: 90px;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 40px;
+    
+  }
+  #del{
+    width: 25%;
+  }
+  
+  .g{
+  background-color:#9f9f9f;
+  
+  }
+  .ap{
+    background-color: #f69906;
+    border-color: black;
+  }
+  .a22{
+  margin-left: 300px;
+  
+  }
+  .h{
+    background-image: url("/assets/calcgbg.jpg");
+    background-size: cover;
+    height: 640px;
+  }
+
+Logical :
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-calc',
+  templateUrl: './calc.component.html',
+  styleUrls: ['./calc.component.scss']
+})
+export class CalcComponent {
+  n1 : string = ""
+  n2:string = ""
+  display : string = ""
+  isClicked : boolean = false;
+  selOp : string = ""
+  resCalc : boolean = false;
+
+  Numclick(val:string)
+  {
+    if(this.resCalc && this.isClicked == false)
+    {
+      this.n1 = "";
+      this.resCalc = false;
+      
+    }
+    if(this.isClicked == true)
+    {
+      this. n2 += val;
+      this.display = this.n2
+    }
+    else
+    {
+      this.n1 += val;
+      this.display = this.n1
+    }
+
+  }
+
+ OpClick(op:string)
+ {
+  this.isClicked = true;
+  this.display = op;
+  this.selOp = op;
+ }
+
+
+  Plus()
+  {
+    this.isClicked = true;
+    this.display = "+"
+    this.selOp = "+"
+  }
+
+Minus()
+{
+  this.isClicked =true;
+  this.display ="-"
+  this.selOp ="-"
+}
+Multiply()
+{
+  this.isClicked =true;
+  this.display ="*"
+  this.selOp ="*"
+}
+Division()
+{
+  this.isClicked =true;
+  this.display ="/"
+  this.selOp ="/"
+} 
+
+Percentage()
+{
+  this.isClicked = true;
+  this.display = "%";
+  this.selOp = "%"
+}
+
+
+AC()
+{
+  this.isClicked = false;
+  this.display = "";
+  this.n1 = "";
+  this.n2 = "";
+  this.selOp = "";
+}
+
+DEL()
+{
+  this.display=this.display.toString().slice(0, -1)
+}
+Equals()
+{ 
+  this.resCalc = true;
+  let num1 = parseFloat(this.n1)
+  let num2 = parseFloat(this.n2)
+  let res = 0;
+  if(this.selOp == "+")                    
+  {
+  res = num1 + num2;
+  }
+  else if(this.selOp == "-")
+  { 
+    res = num1 - num2
+  }
+  if(this.selOp == "*")
+  {
+    res = num1 * num2
+  }
+  else if(this.selOp == "/")
+  {
+    res = num1 / num2
+  }
+  if(this.selOp == "%")
+  {
+    res = num1 % num2
+  }
+  
+   this.display = res.toString();
+  this.n1 = res.toString();
+  this.n2 = ''
+  
+this.isClicked = false
+}
+}
+
+
+
 
